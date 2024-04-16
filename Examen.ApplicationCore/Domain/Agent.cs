@@ -13,5 +13,6 @@ namespace Examen.ApplicationCore.Domain
         public string Nom{ get; set; }
         public string Prenom { get; set; }
 
+        public ICollection<Locataire> Locataires { get; set; }
     }
 }

@@ -9,13 +9,15 @@ namespace Examen.ApplicationCore.Domain
 {
     public class Reservation
     {
-        public int LocataireId { get; set; }
-        public int VehiculeId { get; set; }
         public DateTime DateReservation { get; set; }
         [Range(1, 30)]
+        //[Range(1,int.MaxValue)] Intervalle positive
         public int DureeJours { get; set; }
 
+        public int LocataireKey { get; set; }
         public Locataire Locataire { get; set; }
+
+        public int VehiculeKey { get; set; }
         public Vehicule Vehicule { get; set; }
     }
 }

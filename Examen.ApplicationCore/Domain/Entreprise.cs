@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Examen.ApplicationCore.Domain
 {
-    public class Entreprise
+    public class Entreprise : Locataire
     {
         public string Intitule { get; set; }
     }

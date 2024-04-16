@@ -16,7 +16,7 @@ namespace Examen.Infra
 
         private readonly string _databaseName;
 
-        public Context(string prenom, string nom)
+        public Context(string prenom = "yosr", string nom = "ben nagra")
         {
             _databaseName = $"Location{prenom}{nom}";
         }
@@ -28,28 +28,25 @@ namespace Examen.Infra
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Reservation>()
-                .HasKey(r => new { r.LocataireId, r.VehiculeId, r.DateReservation });
-
-            modelBuilder.Entity<Locataire>()
-                .HasDiscriminator<int>("TypeLocataire")
-                .HasValue<Personne>(0)
-                .HasValue<Entreprise>(1);
-
-            modelBuilder.Entity<Reservation>()
-                .HasOne(r => r.Locataire)
-                .WithMany(l => l.Reservations)
-                .HasForeignKey(r => r.LocataireId)
-                .HasPrincipalKey(l => l.Id)
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();
+            .HasOne(r => r.Locataire)
+            .WithMany(l => l.Reservations)
+            .HasForeignKey(r => r.LocataireKey);
 
             modelBuilder.Entity<Reservation>()
                 .HasOne(r => r.Vehicule)
                 .WithMany(v => v.Reservations)
-                .HasForeignKey(r => r.VehiculeId)
-                .HasPrincipalKey(v => v.VehiculeId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();
+                .HasForeignKey(r => r.VehiculeKey);
+            modelBuilder.Entity<Reservation>()
+                .HasKey(r => new { r.LocataireKey, r.VehiculeKey, r.DateReservation });
+            modelBuilder.Entity<Locataire>()
+                .HasDiscriminator<int>("TypeLocataire")
+                .HasValue<Entreprise>(1)
+                .HasValue<Personne>(2)
+                .HasValue<Locataire>(0);
+           
+        
+
+
         }
     }
 }
